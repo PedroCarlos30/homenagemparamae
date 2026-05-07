@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para a Minha Mãe 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose: #f9a8c0;
+      --rose-deep: #e07fa4;
+      --rose-light: #fde8f0;
+      --rose-pale: #fff5f8;
+      --white: #ffffff;
+      --blush: #fdf0f4;
+      --text-dark: #5a2d42;
+      --text-mid: #8a4a65;
+      --text-soft: #c497ad;
+      --gold: #d4a0b0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--white);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── petals background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, #fde8f055 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 90% 80%, #fde8f066 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 50% 50%, #fff5f8 0%, #ffffff 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── floating petals ── */
+    .petal {
+      position: fixed;
+      width: 12px;
+      height: 18px;
+      background: var(--rose-light);
+      border-radius: 80% 0 80% 0;
+      opacity: 0;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .petal:nth-child(even) { background: #ffd6e5; border-radius: 0 80% 0 80%; }
+    .petal:nth-child(3n) { background: #fbb8d0; width: 8px; height: 13px; }
+
+    @keyframes fall {
+      0%   { transform: translateY(-40px) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── layout ── */
+    main { position: relative; z-index: 2; }
+
+    section {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+    }
+
+    .hero-ornament {
+      font-size: 2.4rem;
+      color: var(--rose);
+      letter-spacing: 0.3em;
+      margin-bottom: 1.5rem;
+      animation: fadeIn 1.2s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 600;
+      color: var(--text-dark);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      animation: slideUp 1.2s ease both 0.2s;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--rose-deep);
+    }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-mid);
+      margin-top: 1rem;
+      animation: slideUp 1.2s ease both 0.4s;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0;
+      animation: fadeIn 1.4s ease both 0.5s;
+    }
+    .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--rose), transparent); }
+    .divider-heart { color: var(--rose-deep); font-size: 1rem; }
+
+    /* ── music player ── */
+    .player-wrap {
+      animation: fadeIn 1.4s ease both 0.7s;
+      margin-top: 1rem;
+    }
+
+    .player {
+      background: var(--white);
+      border: 1.5px solid var(--rose-light);
+      border-radius: 2rem;
+      padding: 1.4rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      box-shadow: 0 8px 32px #f9a8c020, 0 2px 8px #f9a8c015;
+      min-width: 280px;
+      max-width: 420px;
+    }
+
+    .play-btn {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose-deep), #f472a0);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px #e07fa440;
+    }
+    .play-btn:hover { transform: scale(1.07); box-shadow: 0 6px 20px #e07fa455; }
+    .play-btn:active { transform: scale(0.97); }
+    .play-btn svg { fill: white; width: 20px; height: 20px; margin-left: 3px; }
+    .play-btn.playing svg { margin-left: 0; }
+
+    .player-info { flex: 1; min-width: 0; }
+    .player-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .player-artist {
+      font-size: 0.72rem;
+      color: var(--text-soft);
+      margin-top: 2px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .progress-wrap { margin-top: 8px; }
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: var(--rose-light);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--rose-deep), #f472a0);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.5s linear;
+    }
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      color: var(--text-soft);
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── scroll indicator ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--rose);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: bounce 2s ease-in-out infinite;
+      opacity: 0.7;
+    }
+    .scroll-hint svg { width: 18px; opacity: 0.8; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── message section ── */
+    .message-section {
+      padding: 6rem 2rem;
+    }
+
+    .card {
+      background: var(--blush);
+      border: 1px solid #f4c6d8;
+      border-radius: 1.5rem;
+      padding: 3rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '❝';
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      color: var(--rose-light);
+      position: absolute;
+      top: -1.5rem;
+      left: 1.5rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--text-dark);
+      position: relative;
+    }
+
+    .card-sig {
+      margin-top: 2rem;
+      text-align: right;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--rose-deep);
+    }
+
+    /* ── qualities ── */
+    .qualities-section {
+      padding: 0 2rem 6rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 600;
+      color: var(--text-dark);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-title span { color: var(--rose-deep); font-style: italic; }
+
+    .qualities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .quality-card {
+      background: var(--white);
+      border: 1px solid var(--rose-light);
+      border-radius: 1.2rem;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .quality-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px #f9a8c025;
+    }
+
+    .quality-icon { font-size: 2rem; margin-bottom: 0.8rem; display: block; }
+    .quality-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.4rem;
+    }
+    .quality-desc {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── photo placeholder ── */
+    .photo-section {
+      padding: 0 2rem 6rem;
+    }
+
+    .photo-frame {
+      border: 2px dashed #f4c6d8;
+      border-radius: 1.5rem;
+      padding: 3rem;
+      text-align: center;
+      background: var(--rose-pale);
+      position: relative;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      max-width: 380px;
+      height: 380px;
+      object-fit: cover;
+      border-radius: 1.2rem;
+      display: block;
+      margin: 0 auto;
+      border: 3px solid var(--rose-light);
+      box-shadow: 0 8px 32px #f9a8c030;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      max-width: 380px;
+      height: 280px;
+      border-radius: 1.2rem;
+      background: linear-gradient(135deg, var(--rose-light) 0%, #ffd6e5 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      border: 2px dashed var(--rose);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .photo-placeholder:hover { opacity: 0.85; }
+    .photo-placeholder-text {
+      color: var(--rose-deep);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+    .photo-placeholder svg { width: 48px; opacity: 0.6; }
+
+    #photoInput { display: none; }
+
+    .photo-caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-mid);
+      margin-top: 1.2rem;
+    }
+
+    /* ── footer ── */
+    footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    footer .hearts {
+      font-size: 1.6rem;
+      letter-spacing: 0.2em;
+      display: block;
+      margin-bottom: 1rem;
+      color: var(--rose-deep);
+    }
+
+    footer p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-soft);
+    }
+
+    /* ── name box ── */
+    .name-box {
+      background: var(--white);
+      border: 1.5px solid var(--rose-light);
+      border-radius: 1.2rem;
+      padding: 1.1rem 1.5rem 1.2rem;
+      max-width: 380px;
+      width: 100%;
+      box-shadow: 0 4px 20px #f9a8c018;
+      animation: fadeIn 1.4s ease both 0.45s;
+      margin-bottom: 0.2rem;
+    }
+
+    .name-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 0.6rem;
+    }
+
+    .name-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .name-input {
+      flex: 1;
+      border: none;
+      border-bottom: 1.5px solid var(--rose-light);
+      background: transparent;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--text-dark);
+      padding: 0.3rem 0.2rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .name-input::placeholder { color: var(--text-soft); font-style: italic; }
+    .name-input:focus { border-color: var(--rose-deep); }
+
+    .name-confirm-btn {
+      background: linear-gradient(135deg, var(--rose-deep), #f472a0);
+      border: none;
+      border-radius: 50%;
+      width: 34px; height: 34px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 3px 10px #e07fa440;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .name-confirm-btn:hover { transform: scale(1.1); }
+    .name-confirm-btn:active { transform: scale(0.95); }
+
+    .name-hint {
+      font-size: 0.68rem;
+      color: var(--rose-deep);
+      margin-top: 0.5rem;
+      letter-spacing: 0.05em;
+      min-height: 1em;
+      text-align: center;
+    }
+
+    /* ── audio ── */
+    audio { display: none; }
+
+    /* ── upload music banner ── */
+    .music-upload-banner {
+      background: var(--rose-pale);
+      border: 1.5px dashed var(--rose);
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      margin-top: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 420px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .music-upload-banner:hover { background: #fde8f0; }
+    .music-upload-banner svg { color: var(--rose-deep); flex-shrink: 0; }
+    .music-upload-banner span {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      letter-spacing: 0.05em;
+    }
+    #musicInput { display: none; }
+
+    /* ── animations ── */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 600px) {
+      .card { padding: 2rem 1.5rem; }
+      .player { padding: 1rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- floating petals -->
+<script>
+  const petalCount = 22;
+  for (let i = 0; i < petalCount; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 16) + 's';
+    p.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+    document.body.appendChild(p);
+  }
+</script>
+
+<audio id="audio" loop></audio>
+<input type="file" id="musicInput" accept="audio/*" />
+<input type="file" id="photoInput" accept="image/*" />
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-ornament">✦ ✦ ✦</div>
+    <h1>Para a minha<br><em id="momNameDisplay">mãe querida</em></h1>
+    <p class="hero-sub">com todo o meu amor e gratidão</p>
+
+    <!-- name input -->
+    <div class="name-box">
+      <label class="name-label" for="momNameInput">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
+        Nome da sua mãe
+      </label>
+      <div class="name-input-wrap">
+        <input
+          type="text"
+          id="momNameInput"
+          class="name-input"
+          placeholder="ex: Maria, Ana, Joana…"
+          maxlength="40"
+        />
+        <button class="name-confirm-btn" id="nameConfirmBtn" aria-label="Confirmar nome">✓</button>
+      </div>
+    </div>
+
+    <div class="divider" style="width:100%;max-width:420px;">
+      <div class="divider-line"></div>
+      <span class="divider-heart">♡</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- music player -->
+    <div class="player-wrap">
+      <div class="player">
+        <button class="play-btn" id="playBtn" aria-label="Tocar música">
+          <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="player-info">
+          <div class="player-title" id="songTitle">Adicionar música ♪</div>
+          <div class="player-artist" id="songArtist">clique abaixo para escolher</div>
+          <div class="progress-wrap">
+            <div class="progress-bar" id="progressBar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="time-row">
+              <span id="timeCur">0:00</span>
+              <span id="timeTot">0:00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <label class="music-upload-banner" for="musicInput">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+        <span>Clique aqui para escolher a música que deseja tocar</span>
+      </label>
+    </div>
+
+    <div class="scroll-hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+      role abaixo
+    </div>
+  </div>
+
+  <!-- MESSAGE -->
+  <section class="message-section">
+    <div class="card reveal">
+      <p>
+        Mãe, você é a mulher mais forte e amorosa que já conheci.
+        Em cada gesto seu — no café quentinho da manhã, no colo que sempre acalmou,
+        no olhar que entende sem precisar de palavras — eu encontro o amor mais puro do mundo.<br><br>
+        Obrigada por cada sacrifício feito com sorriso, por cada noite que ficou acordada,
+        por cada vez que colocou a minha felicidade antes da sua.<br><br>
+        Você é minha maior inspiração, meu porto seguro, o lar que carrego dentro do coração.
+        <strong style="color: var(--rose-deep);">Eu te amo infinitamente.</strong>
+      </p>
+      <p class="card-sig">— com todo o meu amor ♡</p>
+    </div>
+  </section>
+
+  <!-- PHOTO -->
+  <section class="photo-section">
+    <h2 class="section-title reveal">Nossa <span>memória</span> favorita</h2>
+    <div class="photo-frame reveal">
+      <div id="photoContainer">
+        <label class="photo-placeholder" for="photoInput">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#e07fa4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span class="photo-placeholder-text">Adicionar uma foto</span>
+        </label>
+      </div>
+      <p class="photo-caption">Você é a foto mais bonita da minha vida ✦</p>
+    </div>
+  </section>
+
+  <!-- QUALITIES -->
+  <section class="qualities-section">
+    <h2 class="section-title reveal">Por que te <span>amo tanto</span></h2>
+    <div class="qualities-grid">
+      <div class="quality-card reveal">
+        <span class="quality-icon">🌸</span>
+        <div class="quality-name">Amor incondicional</div>
+        <div class="quality-desc">Você ama sem pedir nada em troca, sempre.</div>
+      </div>
+      <div class="quality-card reveal">
+        <span class="quality-icon">💪</span>
+        <div class="quality-name">Força incrível</div>
+        <div class="quality-desc">Supera qualquer obstáculo com coragem e fé.</div>
+      </div>
+      <div class="quality-card reveal">
+        <span class="quality-icon">✨</span>
+        <div class="quality-name">Exemplo de vida</div>
+        <div class="quality-desc">Me ensinou a ser quem sou com sua sabedoria.</div>
+      </div>
+      <div class="quality-card reveal">
+        <span class="quality-icon">🏡</span>
+        <div class="quality-name">Meu porto seguro</div>
+        <div class="quality-desc">Onde quer que esteja, você é meu lar.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="hearts">♡ ♡ ♡</span>
+  <p>Feito com amor eterno — para a mulher da minha vida</p>
+</footer>
+
+<script>
+  // ── name ──
+  const momNameInput = document.getElementById('momNameInput');
+  const nameConfirmBtn = document.getElementById('nameConfirmBtn');
+  const momNameDisplay = document.getElementById('momNameDisplay');
+
+  function applyName() {
+    const val = momNameInput.value.trim();
+    if (val) {
+      momNameDisplay.textContent = val;
+      document.title = 'Para ' + val + ' 💕';
+      momNameInput.blur();
+    }
+  }
+
+  nameConfirmBtn.addEventListener('click', applyName);
+  momNameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') applyName(); });
+
+  // ── music ──
+  const audio = document.getElementById('audio');
+  const playBtn = document.getElementById('playBtn');
+  const playIcon = document.getElementById('playIcon');
+  const songTitle = document.getElementById('songTitle');
+  const songArtist = document.getElementById('songArtist');
+  const progressFill = document.getElementById('progressFill');
+  const progressBar = document.getElementById('progressBar');
+  const timeCur = document.getElementById('timeCur');
+  const timeTot = document.getElementById('timeTot');
+
+  const playPath = 'M8 5v14l11-7z';
+  const pausePath = 'M6 19h4V5H6v14zm8-14v14h4V5h-4z';
+
+  document.getElementById('musicInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    audio.src = url;
+    const name = file.name.replace(/\.[^/.]+$/, '');
+    songTitle.textContent = name.length > 30 ? name.slice(0, 30) + '…' : name;
+    songArtist.textContent = 'sua música especial ♪';
+    audio.play();
+    playIcon.querySelector('path') ? playIcon.innerHTML = '<path d="' + pausePath + '"/>' : null;
+    playIcon.innerHTML = '<path d="' + pausePath + '"/>';
+  });
+
+  playBtn.addEventListener('click', () => {
+    if (!audio.src) {
+      document.getElementById('musicInput').click();
+      return;
+    }
+    if (audio.paused) {
+      audio.play();
+      playIcon.innerHTML = '<path d="' + pausePath + '"/>';
+    } else {
+      audio.pause();
+      playIcon.innerHTML = '<path d="' + playPath + '"/>';
+    }
+  });
+
+  function fmt(s) {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    progressFill.style.width = pct + '%';
+    timeCur.textContent = fmt(audio.currentTime);
+    timeTot.textContent = fmt(audio.duration);
+  });
+
+  progressBar.addEventListener('click', (e) => {
+    if (!audio.duration) return;
+    const rect = progressBar.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    audio.currentTime = (x / rect.width) * audio.duration;
+  });
+
+  // ── photo ──
+  document.getElementById('photoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    const container = document.getElementById('photoContainer');
+    container.innerHTML = '<img src="' + url + '" alt="Foto da minha mãe" />';
+  });
+
+  // ── reveal on scroll ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
